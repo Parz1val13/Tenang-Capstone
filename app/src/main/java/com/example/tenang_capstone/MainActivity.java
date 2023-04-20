@@ -22,7 +22,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     // our client sux #facts
-
+    // FACTS ^
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
