@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.TenangCapstone" parent="Base.Theme.TenangCapstone" />
+
+    <style name="Theme.TenangCapstone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TenangCapstone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
