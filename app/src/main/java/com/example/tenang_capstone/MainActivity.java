@@ -2,11 +2,14 @@ package com.example.tenang_capstone;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.tenang_capstone.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_about_us, R.id.nav_leaderboards, R.id.nav_milestones, R.id.nav_my_information, R.id.nav_directory, R.id.nav_export)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

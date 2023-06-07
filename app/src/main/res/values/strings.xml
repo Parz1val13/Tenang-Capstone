@@ -66,4 +66,7 @@
     <string name="title_overview">Overview</string>
     <string name="title_diary">Diary</string>
     <string name="title_friends">Friends</string>
+    <string name="berries_count">Berries Count</string>
+    <string name="shop">Shop</string>
+    <string name="welcome">Welcome!</string>
 </resources>
