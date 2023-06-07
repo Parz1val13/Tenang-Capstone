@@ -40,4 +40,28 @@
         android:name="com.example.tenang_capstone.ui.export.ExportFragment"
         android:label="@string/export"
         tools:layout="@layout/fragment_export" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.tenang_capstone.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_overview"
+        android:name="com.example.tenang_capstone.ui.overview.OverviewFragment"
+        android:label="@string/title_overview"
+        tools:layout="@layout/fragment_overview" />
+
+    <fragment
+        android:id="@+id/navigation_diary"
+        android:name="com.example.tenang_capstone.ui.diary.DiaryFragment"
+        android:label="@string/title_diary"
+        tools:layout="@layout/fragment_diary" />
+
+    <fragment
+        android:id="@+id/navigation_friends"
+        android:name="com.example.tenang_capstone.ui.friends.FriendsFragment"
+        android:label="@string/title_friends"
+        tools:layout="@layout/fragment_friends" />
 </navigation>

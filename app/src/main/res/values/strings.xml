@@ -60,4 +60,10 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
+
+    <string name="title_home">Home</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_diary">Diary</string>
+    <string name="title_friends">Friends</string>
 </resources>
