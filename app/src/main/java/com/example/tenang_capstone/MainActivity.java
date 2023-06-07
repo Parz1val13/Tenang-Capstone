@@ -1,15 +1,16 @@
 package com.example.tenang_capstone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.tenang_capstone.databinding.ActivityMainBinding;
+import com.example.tenang_capstone.ui.panic.PanicActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -60,5 +61,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_panic) {
+            panic();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void panic() {
+        Intent intent = new Intent(MainActivity.this, PanicActivity.class);
+        startActivity(intent);
     }
 }
