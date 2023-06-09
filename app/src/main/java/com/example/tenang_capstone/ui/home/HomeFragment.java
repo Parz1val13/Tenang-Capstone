@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
         if (!mainViewModel.skip) {
             isLogAlreadyEntered();
         }
+        getBerryCount();
 
     }
 
@@ -88,5 +89,19 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void getBerryCount() {
+        String uid = requireActivity().getIntent().getStringExtra("uid");
+
+        DocumentReference docRef = db.collection("users").document(uid);
+        docRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Long berry = (Long) (task.getResult().getData().get("berry"));
+                        binding.button5.setText(berry.toString());
+                    }
+                });
     }
 }
