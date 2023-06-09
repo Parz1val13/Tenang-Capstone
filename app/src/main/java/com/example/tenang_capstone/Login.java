@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class Login extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
@@ -31,13 +33,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("uid", mAuth.getUid());
-            startActivity(intent);
-            finish();
-        }
+
     }
 
     @Override
@@ -51,6 +47,19 @@ public class Login extends AppCompatActivity {
         buttonLogin = findViewById(R.id.btnLogin);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.registerNow);
+
+        if (Objects.equals(getIntent().getStringExtra("status"), "logout")) {
+            mAuth.signOut();
+        } else {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("uid", mAuth.getUid());
+                startActivity(intent);
+                finish();
+            }
+        }
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
