@@ -1,6 +1,7 @@
 package com.example.tenang_capstone.ui.milestones;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tenang_capstone.databinding.FragmentMilestonesBinding;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MilestonesFragment extends Fragment {
 
     private FragmentMilestonesBinding binding;
     private int currentProgress = 0;
+
+    private String uid;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MilestonesViewModel milestonesViewModel =
@@ -25,6 +31,8 @@ public class MilestonesFragment extends Fragment {
 
         binding = FragmentMilestonesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        uid = requireActivity().getIntent().getStringExtra("uid");
 
 //        final TextView textView = binding.textSlideshow;
 //        milestonesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -38,27 +46,39 @@ public class MilestonesFragment extends Fragment {
 
         milestoneProgress.setMax(90);
 
-        binding.button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int ml = 85;
-                if (ml <= 2) {
-                    currentProgress = ml *5;
-                } else if (ml <= 15) {
-                    currentProgress = (int) (ml * 3.7);
-                } else if (ml <= 30) {
-                    currentProgress = (int) (ml * 2.3);
-                } else if (ml <= 60) {
-                    currentProgress = (int) (ml * 1.5);
-                } else if (ml <=89) {
-                    currentProgress = ml;
-                } else {
-                    currentProgress = 90;
-                }
-                milestoneProgress.setProgress(currentProgress);
-            }
-        });
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        CollectionReference docRef = db.collection("users").document(uid).collection("logs");
+        docRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    int ml = documentSnapshot.size();
+                    Log.d("Milestone", String.valueOf(documentSnapshot.size()));
+                    if (ml > 0 && ml <= 2) {
+                        currentProgress = ml *5;
+                        binding.textView13.setText("5 Days");
+                    } else if (ml <= 5) {
+                        currentProgress = ml *5;
+                        binding.textView13.setText("7 Days");
+                    } else if (ml <= 7) {
+                        currentProgress = (int) (ml * 5.4);
+                        binding.textView13.setText("15 Days");
+                    } else if (ml <= 15) {
+                        currentProgress = (int) (ml * 3.7);
+                        binding.textView13.setText("30 Days");
+                    } else if (ml <= 30) {
+                        currentProgress = (int) (ml * 2.3);
+                        binding.textView13.setText("60 Days");
+                    } else if (ml <= 60) {
+                        currentProgress = (int) (ml * 1.5);
+                        binding.textView13.setText("90 Days");
+                    } else if (ml <=89) {
+                        currentProgress = ml;
+                    } else {
+                        currentProgress = 90;
+                    }
+                    milestoneProgress.setProgress(currentProgress);
+                    binding.textView44.setText(ml+" day streak");
+                });
     }
 
     @Override

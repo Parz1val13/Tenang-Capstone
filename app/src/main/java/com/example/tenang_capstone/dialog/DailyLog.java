@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.example.tenang_capstone.MainViewModel;
 import com.example.tenang_capstone.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,10 +34,11 @@ public class DailyLog {
     int gratefulRate = 0;
 
     boolean mood = false, sleep = false, activity = false;
-
-    public DailyLog(Activity myActivity, String uuid) {
+    MainViewModel mainViewModel;
+    public DailyLog(Activity myActivity, String uuid, MainViewModel mainViewModel) {
         this.myActivity = myActivity;
         this.uid = uuid;
+        this.mainViewModel = mainViewModel;
     }
 
     public void openSpecificDialog(boolean mood, boolean sleep, boolean activity) {
@@ -73,6 +75,7 @@ public class DailyLog {
         bottomSheetDialog.findViewById(R.id.moodSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mainViewModel.skip = true;
                 bottomSheetDialog.cancel();
                 happyRate = 0;
                 sadRate = 0;
@@ -89,6 +92,7 @@ public class DailyLog {
             @Override
             public void onClick(View v) {
                 bottomSheetDialog.cancel();
+                mainViewModel.skip = true;
             }
         });
 
@@ -179,6 +183,7 @@ public class DailyLog {
         bottomSheetDialog.findViewById(R.id.sleepSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mainViewModel.skip = true;
                 bottomSheetDialog.cancel();
                 sleepHours = 0;
                 sleepRate = 0;
@@ -190,7 +195,7 @@ public class DailyLog {
         bottomSheetDialog.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mainViewModel.skip = true;
                 bottomSheetDialog.cancel();
             }
         });
@@ -247,6 +252,7 @@ public class DailyLog {
         bottomSheetDialog.findViewById(R.id.daySkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mainViewModel.skip = true;
                 dayRate = 0;
                 stressRate = 0;
                 gratefulRate = 0;
@@ -257,6 +263,7 @@ public class DailyLog {
         bottomSheetDialog.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mainViewModel.skip = true;
                 bottomSheetDialog.cancel();
             }
         });

@@ -77,13 +77,13 @@ public class HomeFragment extends Fragment {
                     boolean activity = document.getData().containsKey("dayRate");
                     Log.d("onComplete", "containKey: "+mood+", "+sleep+", "+activity);
 
-                    DailyLog dailyLog = new DailyLog(requireActivity(), mainViewModel.uuid);
+                    DailyLog dailyLog = new DailyLog(requireActivity(), mainViewModel.uuid, mainViewModel);
                     dailyLog.openSpecificDialog(mood, sleep, activity);
 
                 } else {
                     Log.d("isLogAlreadyEntered", "not exist");
                     // NOT EXIST EXECUTE GET LOGS
-                    DailyLog dailyLog = new DailyLog(requireActivity(), mainViewModel.uuid);
+                    DailyLog dailyLog = new DailyLog(requireActivity(), mainViewModel.uuid, mainViewModel);
                     dailyLog.openMoodDialog();
                 }
             }
