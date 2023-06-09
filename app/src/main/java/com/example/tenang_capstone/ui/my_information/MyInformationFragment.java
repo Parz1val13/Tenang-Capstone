@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MyInformationFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MainViewModel mainViewModel;
-    FirebaseAuth mAuth;
     private FragmentMyInformationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
