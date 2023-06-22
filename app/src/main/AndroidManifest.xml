@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.tenang_capstone.ui.panic.PanicActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.tenang_capstone.MainActivity"
             android:theme="@style/Theme.TenangCapstone"/>
     </application>
 

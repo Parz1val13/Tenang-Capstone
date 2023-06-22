@@ -3,8 +3,11 @@ package com.example.tenang_capstone.ui.panic;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,7 @@ public class PanicActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.d("onBackPressed", "back-pressed");
         super.onBackPressed();
     }
 
@@ -53,5 +57,16 @@ public class PanicActivity extends AppCompatActivity {
     public void openDialog() {
         SeekHelpDialog seekHelpDialog = new SeekHelpDialog(this);
         seekHelpDialog.openSeekHelpDialog();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
