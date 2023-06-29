@@ -1,5 +1,6 @@
 package com.example.tenang_capstone.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tenang_capstone.MainActivity;
 import com.example.tenang_capstone.MainViewModel;
 import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.databinding.FragmentHomeBinding;
 import com.example.tenang_capstone.dialog.DailyLog;
+import com.example.tenang_capstone.ui.panic.PanicActivity;
+import com.example.tenang_capstone.ui.shop.ShopActivity;
 import com.example.tenang_capstone.utils.firebase.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,6 +59,14 @@ public class HomeFragment extends Fragment {
         }
         getBerryCount();
         getMood();
+
+        binding.shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ShopActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

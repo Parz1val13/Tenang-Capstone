@@ -42,6 +42,9 @@
         <activity android:name="com.example.tenang_capstone.ui.panic.PanicActivity"
             android:parentActivityName="com.example.tenang_capstone.MainActivity"
             android:theme="@style/Theme.TenangCapstone"/>
+        <activity android:name="com.example.tenang_capstone.ui.shop.ShopActivity"
+            android:parentActivityName="com.example.tenang_capstone.MainActivity"
+            android:theme="@style/Theme.TenangCapstone"/>
     </application>
 
 </manifest>
