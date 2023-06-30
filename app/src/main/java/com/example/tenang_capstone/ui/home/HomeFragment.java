@@ -25,10 +25,14 @@ import com.example.tenang_capstone.ui.shop.ShopActivity;
 import com.example.tenang_capstone.utils.firebase.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +67,7 @@ public class HomeFragment extends Fragment {
         }
         getBerryCount();
         getMood();
-
+        getAvatar();
         binding.shopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +153,25 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Long berry = (Long) (task.getResult().getData().get("berry"));
                         binding.button5.setText(berry.toString());
+                    }
+                });
+    }
+
+    public void getAvatar() {
+        String uid = requireActivity().getIntent().getStringExtra("uid");
+        CollectionReference docRef = db.collection("users").document(uid).collection("avatar");
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
+                            if (documentSnapshot.getId().equals("shirts")) {
+                                Picasso.get().load(documentSnapshot.get("image").toString()).into(binding.userAvatar.box3);
+                            }
+                            if (documentSnapshot.getId().equals("accessories")) {
+                                Picasso.get().load(documentSnapshot.get("image").toString()).into(binding.userAvatar.box2);
+                            }
+                        }
                     }
                 });
     }

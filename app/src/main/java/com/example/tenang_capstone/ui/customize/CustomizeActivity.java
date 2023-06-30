@@ -17,11 +17,16 @@ import com.example.tenang_capstone.ui.shop.ShopItemList;
 import com.example.tenang_capstone.utils.firebase.InventoryUtils;
 import com.example.tenang_capstone.utils.firebase.ShopUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +70,7 @@ public class CustomizeActivity extends AppCompatActivity {
         inventoryView.setLayoutManager(new LinearLayoutManager(this));
         inventoryView.setAdapter(new CustomizeAdapter(this, inventoryList, option[0], inventory::onSelection));
         getInventoryItem();
-
+        getAvatar();
         binding.optionShirt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +106,35 @@ public class CustomizeActivity extends AppCompatActivity {
                 inventoryView.setAdapter(new CustomizeAdapter(binding.getRoot().getContext(), inventoryList, option[0], inventory::onSelection));
             }
         });
+    }
+
+    public void getAvatar() {
+        String uid = this.getIntent().getStringExtra("uid");
+        CollectionReference docRef = db.collection("users").document(uid).collection("avatar");
+        docRef.addSnapshotListener(
+                new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            System.err.println("Listen failed: " + error);
+                            return;
+                        }
+
+                        if (queryDocumentSnapshots != null) {
+                            for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
+                                if (documentSnapshot.getId().equals("shirts")) {
+                                    Picasso.get().load(documentSnapshot.get("image").toString()).into(binding.userAvatar.box3);
+                                }
+                                if (documentSnapshot.getId().equals("accessories")) {
+                                    Picasso.get().load(documentSnapshot.get("image").toString()).into(binding.userAvatar.box2);
+                                }
+                            }
+                        } else {
+                            System.out.print("Current data: null");
+                        }
+                    }
+                }
+        );
     }
 
     public void getInventoryItem() {
