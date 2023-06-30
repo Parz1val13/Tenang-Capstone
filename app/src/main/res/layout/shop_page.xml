@@ -47,7 +47,7 @@
                     android:text="Shirts"
                     app:layout_constraintEnd_toStartOf="@+id/optionAccessories"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/optionFood" />
+                    app:layout_constraintStart_toEndOf="@+id/optionColor" />
 
                 <Space
                     android:layout_width="20dp"
@@ -70,10 +70,10 @@
                     android:layout_weight="1" />
 
                 <Button
-                    android:id="@+id/optionFood"
+                    android:id="@+id/optionColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Foods"
+                    android:text="Color"
                     app:layout_constraintEnd_toStartOf="@+id/optionShirt"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/optionSkins" />
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Skins"
-                    app:layout_constraintEnd_toStartOf="@+id/optionFood"
+                    app:layout_constraintEnd_toStartOf="@+id/optionColor"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent" />
 

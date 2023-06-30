@@ -13,12 +13,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tenang_capstone.databinding.ShopPageBinding;
+import com.example.tenang_capstone.utils.firebase.ShopUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-public class ShopActivity extends AppCompatActivity {
-    private ShopPageBinding binding;
+import java.util.Objects;
 
+public class ShopActivity extends AppCompatActivity {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private ShopPageBinding binding;
+    private RecyclerView shopView;
+    List<ShopItemList> shopList = new ArrayList<>();
     @Override
     public void onBackPressed() {
         Log.d("onBackPressed", "back-pressed");
@@ -38,22 +50,25 @@ public class ShopActivity extends AppCompatActivity {
             actionBar.setTitle("Shop");
         }
 
-        List<ShopItemList> shopList = new ArrayList<>();
-        shopList.add(new ShopItemList("shirts", "65", "description", "shirts", "1", "image"));
-        shopList.add(new ShopItemList("accessories", "75", "description", "accessories", "1", "image"));
+        String uid = this.getIntent().getStringExtra("uid");
+        ShopUtils shop = new ShopUtils(uid);
+
+        shopList.add(new ShopItemList("shirts", "65", "description", "shirts", "1", "https://d1w8c6s6gmwlek.cloudfront.net/retrogametees.com/products/224/974/22497459.png"));
+        shopList.add(new ShopItemList("accessories", "75", "description", "accessories", "1", "https://d1w8c6s6gmwlek.cloudfront.net/retrogametees.com/products/224/974/22497459.png"));
+        shopList.add(new ShopItemList("color", "75", "", "color", "1", "https://wallpaperaccess.com/full/2849664.jpg"));
         Log.d("ShopActivity", String.valueOf(shopList.size()));
 
         final String[] option = {"shirts"};
-        RecyclerView shopView = binding.ShopItemView;
+        shopView = binding.ShopItemView;
         shopView.setLayoutManager(new LinearLayoutManager(this));
-        shopView.setAdapter(new ShopAdapter(this, shopList, option[0]));
-
+        shopView.setAdapter(new ShopAdapter(this, shopList, option[0], shop::onPurchaseConfirmation));
+        getshopItem();
         binding.optionShirt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("ShopActivity", "shirt option selected");
                 option[0] = "shirts";
-                shopView.setAdapter(new ShopAdapter(getApplicationContext(), shopList, option[0]));
+                shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
 
@@ -62,16 +77,16 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionAccessories selected");
                 option[0] = "accessories";
-                shopView.setAdapter(new ShopAdapter(getApplicationContext(), shopList, option[0]));
+                shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
 
-        binding.optionFood.setOnClickListener(new View.OnClickListener() {
+        binding.optionColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ShopActivity", "optionFood selected");
-                option[0] = "food";
-                shopView.setAdapter(new ShopAdapter(getApplicationContext(), shopList, option[0]));
+                Log.d("ShopActivity", "optionColor selected");
+                option[0] = "color";
+                shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
 
@@ -80,10 +95,33 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionSkins selected");
                 option[0] = "skins";
-                shopView.setAdapter(new ShopAdapter(getApplicationContext(), shopList, option[0]));
+                shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
+    }
 
+    public void getshopItem() {
+        CollectionReference docRef = db.collection("shop");
+        docRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        shopList.clear();
+                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+                            shopList.add(
+                              new ShopItemList(
+                                      Objects.requireNonNull(documentSnapshot.get("name")).toString(),
+                                      Objects.requireNonNull(documentSnapshot.get("cost")).toString(),
+                                      Objects.requireNonNull(documentSnapshot.get("description")).toString(),
+                                      Objects.requireNonNull(documentSnapshot.get("type")).toString(),
+                                      Objects.requireNonNull(documentSnapshot.getId()),
+                                      Objects.requireNonNull(documentSnapshot.get("image")).toString()
+                              )
+                            );
+                        }
+                        shopView.getAdapter().notifyDataSetChanged();
+                    }
+                });
     }
 
     @Override
@@ -97,3 +135,4 @@ public class ShopActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+

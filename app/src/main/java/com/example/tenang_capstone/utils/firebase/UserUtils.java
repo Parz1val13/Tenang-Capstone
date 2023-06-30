@@ -32,7 +32,6 @@ public class UserUtils {
                         String email = documentSnapshot.get("username").toString();
                         String date = documentSnapshot.get("date").toString();
 
-
                     } else {
                         Log.d("userInfo", "No such document");
                     }

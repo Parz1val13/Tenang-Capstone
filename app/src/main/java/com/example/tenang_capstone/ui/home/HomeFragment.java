@@ -63,7 +63,9 @@ public class HomeFragment extends Fragment {
         binding.shopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uid = requireActivity().getIntent().getStringExtra("uid");
                 Intent intent = new Intent(getContext(), ShopActivity.class);
+                intent.putExtra("uid", uid);
                 startActivity(intent);
             }
         });
@@ -159,11 +161,11 @@ public class HomeFragment extends Fragment {
                         }
 
                         if (average <=5) {
-                            binding.faceImage.setImageResource(R.drawable.sad);
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.sad);
                         } else if (average <=10) {
-                            binding.faceImage.setImageResource(R.drawable.normal);
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.normal);
                         } else if (average <=15) {
-                            binding.faceImage.setImageResource(R.drawable.happy);
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.happy);
                         }
                     }
                 })
