@@ -27,7 +27,7 @@ public class ShopUtils {
         this.uid = uid;
     }
 
-    public void onPurchaseConfirmation(Context context, String itemId, String name, String type, String cost, String image) {
+    public void onPurchaseConfirmation(Context context, String itemId, String name, String description, String type, String cost, String image) {
         // Check berry balance
         DocumentReference docRef = db.collection("users").document(uid);
         docRef.get()
@@ -43,6 +43,8 @@ public class ShopUtils {
                             Map<String, Object> item = new HashMap<>();
                             item.put("itemId", itemId);
                             item.put("name", name);
+                            item.put("cost", cost);
+                            item.put("description", description);
                             item.put("type", type);
                             item.put("image", image);
 

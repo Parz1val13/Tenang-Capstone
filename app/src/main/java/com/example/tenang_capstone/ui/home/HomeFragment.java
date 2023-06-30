@@ -1,9 +1,11 @@
 package com.example.tenang_capstone.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +19,7 @@ import com.example.tenang_capstone.MainViewModel;
 import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.databinding.FragmentHomeBinding;
 import com.example.tenang_capstone.dialog.DailyLog;
+import com.example.tenang_capstone.ui.customize.CustomizeActivity;
 import com.example.tenang_capstone.ui.panic.PanicActivity;
 import com.example.tenang_capstone.ui.shop.ShopActivity;
 import com.example.tenang_capstone.utils.firebase.Utility;
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -68,6 +72,32 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }
+        });
+
+        final int CLICK_DURATION_THRESHOLD = 500; // Threshold in milliseconds
+        final long[] startTime = new long[1];
+
+        binding.userAvatar.materialCardView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startTime[0] = System.currentTimeMillis();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    long endTime = System.currentTimeMillis();
+                    long duration = endTime - startTime[0];
+
+                    if (duration >= CLICK_DURATION_THRESHOLD) {
+                        // Click and hold action performed
+                        // Add your custom logic here
+                        Log.d("HomeFragment", "OnHold");
+                        String uid = requireActivity().getIntent().getStringExtra("uid");
+                        Intent intent = new Intent(getContext(), CustomizeActivity.class);
+                        intent.putExtra("uid", uid);
+                        startActivity(intent);
+                    }
+                    break;
+            }
+            return false;
         });
     }
 

@@ -1,4 +1,4 @@
-package com.example.tenang_capstone.ui.shop;
+package com.example.tenang_capstone.ui.customize;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,24 +17,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tenang_capstone.R;
+import com.example.tenang_capstone.ui.shop.ShopItemList;
+import com.example.tenang_capstone.ui.shop.WhenSelected;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> {
+public class CustomizeAdapter extends RecyclerView.Adapter<CustomizeAdapter.MyViewHolder> {
     private Context context;
     private final List<ShopItemList> shopItemListList;
     private String option;
 
-    private WhenSelected shopActivity;
+    private WhenSelected customizeActivity;
 
-    public ShopAdapter(Context context, List<ShopItemList> shopItemListList, String option, WhenSelected shopActivity) {
+    public CustomizeAdapter(Context context, List<ShopItemList> shopItemListList, String option, WhenSelected customizeActivity) {
         this.context = context;
         this.shopItemListList = shopItemListList;
         this.option = option;
-        this.shopActivity = shopActivity;
+        this.customizeActivity = customizeActivity;
     }
 
     @NonNull
@@ -50,10 +52,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShopAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ShopItemList shopItem = shopItemListList.stream().filter(item -> item.type.equals(option)).collect(Collectors.toList()).get(position);
 
-        if (option != "color") {
+        if (!Objects.equals(option, "color")) {
+            holder.itemStar.setVisibility(View.INVISIBLE);
+            holder.itemCost.setVisibility(View.INVISIBLE);
             holder.itemName.setText(shopItem.name);
             holder.itemDescription.setText(shopItem.description);
             holder.itemCost.setText(shopItem.cost);
@@ -64,7 +68,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 Log.d("ShopAdapter", "Selected is " + shopItem.name);
-                onCreateDialog(context, shopItem.id, shopItem.name, shopItem.description, shopItem.type, shopItem.cost, shopItem.image).show();
+                customizeActivity.onItemSelected(context, shopItem.id, shopItem.name, shopItem.description, shopItem.type, shopItem.cost, shopItem.image);
             }
         });
     }
@@ -79,6 +83,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         public TextView itemName;
         public TextView itemDescription;
         public TextView itemCost;
+        public ImageView itemStar;
         public ImageView itemImage;
 
         public ConstraintLayout itemSelection;
@@ -90,23 +95,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             itemCost = itemView.findViewById(R.id.itemCost);
             itemImage = itemView.findViewById(R.id.itemImage);
             itemSelection = itemView.findViewById(R.id.itemSelection);
+            itemStar = itemView.findViewById(R.id.itemStar);
         }
-    }
-
-    public Dialog onCreateDialog(Context context, String itemId, String name, String description, String type, String cost, String image) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Confirm ?")
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // START THE GAME!
-                        shopActivity.onItemSelected(context, itemId, name, description, type, cost, image);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        return builder.create();
     }
 }
