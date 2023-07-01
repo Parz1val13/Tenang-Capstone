@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getBerryCount();
         getAvatar();
         Log.d("HomeFragment", "onResume");
     }
