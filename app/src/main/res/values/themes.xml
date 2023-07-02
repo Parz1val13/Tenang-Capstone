@@ -2,12 +2,24 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TenangCapstone" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/bgcolor</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+
     </style>
 
     <style name="Theme.TenangCapstone" parent="Base.Theme.TenangCapstone" />
 
-    <style name="Theme.TenangCapstone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.TenangCapstone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="titleTextColor">@color/black</item>
 
-    <style name="Theme.TenangCapstone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    </style>
+
+    <style name="Theme.TenangCapstone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.Dialog">
+        <!-- Customize your dialog theme here -->
+    </style>
 </resources>

@@ -15,7 +15,7 @@ public class SeekHelpDialog {
     }
 
     public void openSeekHelpDialog() {
-        AlertDialog.Builder bottomSheetDialog = new AlertDialog.Builder(myActivity);
+        AlertDialog.Builder bottomSheetDialog = new AlertDialog.Builder(myActivity, R.style.CustomDialogTheme);
 
 
         bottomSheetDialog.setView(R.layout.seek_help_dialog)
