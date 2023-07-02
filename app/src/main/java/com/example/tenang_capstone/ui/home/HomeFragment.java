@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
         final int CLICK_DURATION_THRESHOLD = 500; // Threshold in milliseconds
         final long[] startTime = new long[1];
 
-        binding.userAvatar.materialCardView.setOnTouchListener((v, event) -> {
+        binding.userAvatar.avatarLayout.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     startTime[0] = System.currentTimeMillis();
@@ -224,9 +224,9 @@ public class HomeFragment extends Fragment {
                         if (average <=5) {
                             binding.userAvatar.faceImage.setImageResource(R.drawable.sad);
                         } else if (average <=10) {
-                            binding.userAvatar.faceImage.setImageResource(R.drawable.normal);
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
                         } else if (average <=15) {
-                            binding.userAvatar.faceImage.setImageResource(R.drawable.happy);
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
                         }
                     }
                 })

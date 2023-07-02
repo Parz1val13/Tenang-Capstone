@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context=".ui.home.HomeFragment">
 
     <Button
         android:id="@+id/button5"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="@string/berries_count"
         app:layout_constraintEnd_toStartOf="@+id/shopButton"
@@ -23,6 +23,7 @@
         android:id="@+id/shopButton"
         android:layout_width="100dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/shop"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +35,7 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/welcome"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +48,7 @@
         android:layout_width="0dp"
 
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/shopButton"
         app:layout_constraintStart_toStartOf="parent"
