@@ -1,7 +1,9 @@
 package com.example.tenang_capstone.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
+import java.util.prefs.Preferences;
 
 
 public class HomeFragment extends Fragment {
@@ -76,6 +79,7 @@ public class HomeFragment extends Fragment {
         getBerryCount();
         getMood();
         getAvatar();
+
         binding.shopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,10 +90,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        final int CLICK_DURATION_THRESHOLD = 500; // Threshold in milliseconds
+        /*final int CLICK_DURATION_THRESHOLD = 500; // Threshold in milliseconds
         final long[] startTime = new long[1];
 
-        binding.userAvatar.avatarLayout.setOnTouchListener((v, event) -> {
+        binding.userAvatar.imageView9.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     startTime[0] = System.currentTimeMillis();
@@ -110,6 +114,16 @@ public class HomeFragment extends Fragment {
                     break;
             }
             return false;
+        });*/
+
+        binding.userAvatar.avatarLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uid = requireActivity().getIntent().getStringExtra("uid");
+                Intent intent = new Intent(getContext(), CustomizeActivity.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+            }
         });
     }
 
@@ -182,6 +196,16 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+        String color = sharedPreferences.getString(uid, "yellow");
+
+        Log.d("HomeFragment", "color : "+color);
+        if (color.equals("yellow")) {
+            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+        } else {
+            binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet);
+        }
     }
 
     public void getMood() {
@@ -221,12 +245,34 @@ public class HomeFragment extends Fragment {
                             average += (day + grateful + stressRate) / 3;
                         }
 
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+
+                        String color = sharedPreferences.getString(uid, "yellow");
+
+                        if (color.equals("yellow")) {
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                        } else {
+                            binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet);
+                        }
+
                         if (average <=5) {
-                            binding.userAvatar.faceImage.setImageResource(R.drawable.sad);
+                            if (color.equals("yellow")) {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet_sad);
+                            } else {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet_sad);
+                            }
                         } else if (average <=10) {
-                            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                            if (color.equals("yellow")) {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                            } else {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet);
+                            }
                         } else if (average <=15) {
-                            binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                            if (color.equals("yellow")) {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                            } else {
+                                binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet);
+                            }
                         }
                     }
                 })

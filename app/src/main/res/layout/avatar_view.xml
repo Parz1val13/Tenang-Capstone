@@ -10,6 +10,7 @@
         android:id="@+id/imageView9"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -38,8 +39,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/faceImage"
         app:layout_constraintEnd_toEndOf="@+id/faceImage"
         app:layout_constraintStart_toStartOf="@+id/faceImage"
-        app:srcCompat="@drawable/icecream_accessories"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@drawable/icecream_accessories" />
 
     <ImageView
         android:id="@+id/box3"

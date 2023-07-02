@@ -1,5 +1,7 @@
 package com.example.tenang_capstone.ui.customize;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.databinding.CustomizePageBinding;
 import com.example.tenang_capstone.ui.shop.ShopItemList;
 import com.example.tenang_capstone.utils.firebase.InventoryUtils;
@@ -68,7 +71,7 @@ public class CustomizeActivity extends AppCompatActivity {
         inventoryView.setLayoutManager(new LinearLayoutManager(this));
         inventoryView.setAdapter(new CustomizeAdapter(this, inventoryList, option[0], inventory::onSelection));
         getInventoryItem();
-        getAvatar();
+        getAvatar(this);
         binding.optionShirt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +109,7 @@ public class CustomizeActivity extends AppCompatActivity {
         });
     }
 
-    public void getAvatar() {
+    public void getAvatar(CustomizeActivity customizeActivity) {
         String uid = this.getIntent().getStringExtra("uid");
         CollectionReference docRef = db.collection("users").document(uid).collection("avatar");
         docRef.addSnapshotListener(
@@ -125,6 +128,18 @@ public class CustomizeActivity extends AppCompatActivity {
                                 }
                                 if (documentSnapshot.getId().equals("accessories")) {
                                     Picasso.get().load(documentSnapshot.get("image").toString()).into(binding.userAvatar.box2);
+                                }
+                                if (documentSnapshot.getId().equals("color")) {
+                                    SharedPreferences sharedPreferences = customizeActivity.getSharedPreferences("my_preferences", Context.MODE_PRIVATE);
+
+                                    sharedPreferences.edit().putString(uid, documentSnapshot.get("name").toString()).apply();
+                                    Log.d("ShopActivity", "color selected " + sharedPreferences.getString(uid, "yellow"));
+
+                                    if (documentSnapshot.get("name").toString().equals("yellow")) {
+                                        binding.userAvatar.faceImage.setImageResource(R.drawable.yellowpet);
+                                    } else {
+                                        binding.userAvatar.faceImage.setImageResource(R.drawable.bluepet);
+                                    }
                                 }
                             }
                         } else {

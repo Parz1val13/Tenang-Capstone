@@ -14,8 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tenang_capstone.databinding.FragmentMilestonesBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MilestonesFragment extends Fragment {
@@ -43,7 +46,7 @@ public class MilestonesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ProgressBar milestoneProgress = binding.progressBar2;
-
+        getBerryCount();
         milestoneProgress.setMax(90);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -78,6 +81,21 @@ public class MilestonesFragment extends Fragment {
                     }
                     milestoneProgress.setProgress(currentProgress);
                     binding.textView44.setText(ml+" day streak");
+                });
+    }
+
+    public void getBerryCount() {
+        String uid = requireActivity().getIntent().getStringExtra("uid");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("users").document(uid);
+        docRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Long berry = (Long) (task.getResult().getData().get("berry"));
+                        binding.buttonBerryCount.setText(berry.toString());
+                    }
                 });
     }
 

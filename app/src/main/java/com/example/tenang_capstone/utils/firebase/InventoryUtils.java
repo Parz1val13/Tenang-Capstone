@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class InventoryUtils {
     private String uid;
@@ -23,9 +24,17 @@ public class InventoryUtils {
         DocumentReference docRef = db.collection("users").document(uid).collection("avatar").document(type);
         Map<String, Object> item = new HashMap<>();
         item.put("image", image);
+        item.put("name", name);
         docRef.set(item)
-                .addOnSuccessListener(unused -> Toast.makeText(context, "avatar updated!", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(unused -> {
+                    if (type.equals("color")) {
+                        Preferences preferences = Preferences.userRoot().node("com.example.tenang_capstone");
+                        preferences.put(uid, name);
+                    }
+                    Toast.makeText(context, "avatar updated!", Toast.LENGTH_SHORT).show();
+                })
                 .addOnFailureListener(e -> Toast.makeText(context, "Failed to update!", Toast.LENGTH_SHORT).show());
+
 
     }
 }
