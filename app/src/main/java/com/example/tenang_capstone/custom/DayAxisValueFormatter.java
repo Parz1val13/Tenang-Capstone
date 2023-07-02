@@ -68,11 +68,6 @@ public class DayAxisValueFormatter implements IAxisValueFormatter
         }
     }
 
-    @Override
-    public int getDecimalDigits() {
-        return 0;
-    }
-
     private int getDaysForMonth(int month, int year) {
 
         // month is 0-based

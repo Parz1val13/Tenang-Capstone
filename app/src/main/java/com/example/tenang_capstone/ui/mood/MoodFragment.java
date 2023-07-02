@@ -55,7 +55,6 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
 
     ArrayList<BarEntry> values = new ArrayList<>();
     ArrayList<BarEntry> values2 = new ArrayList<>();
-    ArrayList<BarEntry> values3 = new ArrayList<>();
 
     @Nullable
     @Override
@@ -65,55 +64,37 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
 
         chart1 = binding.chart1;
         chart2 = binding.chart2;
-        chart3 = binding.chart3;
 
         chart1.setOnChartValueSelectedListener(this);
         chart2.setOnChartValueSelectedListener(this);
-        chart3.setOnChartValueSelectedListener(this);
         chart1.setDrawBarShadow(false);
         chart2.setDrawBarShadow(false);
-        chart3.setDrawBarShadow(false);
         chart1.setDrawValueAboveBar(true);
         chart2.setDrawValueAboveBar(true);
-        chart3.setDrawValueAboveBar(true);
 
         chart1.getDescription().setEnabled(false);
         chart2.getDescription().setEnabled(false);
-        chart3.getDescription().setEnabled(false);
 //        chart.setMaxVisibleValueCount(60);
 
         chart1.setPinchZoom(false);
         chart2.setPinchZoom(false);
-        chart3.setPinchZoom(false);
 
         chart1.setDrawGridBackground(false);
         chart2.setDrawGridBackground(false);
-        chart3.setDrawGridBackground(false);
-
-        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart1);
-        IAxisValueFormatter xAxisFormatter2 = new DayAxisValueFormatter(chart2);
-        IAxisValueFormatter xAxisFormatter3 = new DayAxisValueFormatter(chart3);
 
         XAxis xAxis = chart1.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
-        xAxis.setValueFormatter(xAxisFormatter);
+        xAxis.setValueFormatter(new CustomXAxisValueFormatter());
 
         XAxis xAxis2 = chart2.getXAxis();
         xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis2.setDrawGridLines(false);
         xAxis2.setGranularity(1f); // only intervals of 1 day
         xAxis2.setLabelCount(7);
-        xAxis2.setValueFormatter(xAxisFormatter2);
-
-        XAxis xAxis3 = chart3.getXAxis();
-        xAxis3.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis3.setDrawGridLines(false);
-        xAxis3.setGranularity(1f); // only intervals of 1 day
-        xAxis3.setLabelCount(7);
-        xAxis3.setValueFormatter(xAxisFormatter3);
+        xAxis2.setValueFormatter(new CustomXAxisValueFormatter());
 
         Legend l = chart1.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -135,15 +116,6 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
         l2.setTextSize(11f);
         l2.setXEntrySpace(4f);
 
-        Legend l3 = chart3.getLegend();
-        l3.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l3.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l3.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l3.setDrawInside(false);
-        l3.setForm(Legend.LegendForm.SQUARE);
-        l3.setFormSize(9f);
-        l3.setTextSize(11f);
-        l3.setXEntrySpace(4f);
 
         datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
@@ -155,7 +127,6 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setData();
 
         binding.selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,19 +141,16 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 String formattedDate = dateFormat.format(date);
                 Log.d("MoodFragment", "Formatted Date: " + formattedDate);
+
+                getData(formattedDate);
             }
         });
     }
 
     private void setData() {
 
-        values.add(new BarEntry(convertDateToFloat("01-07-2023"), 13));
-        values.add(new BarEntry(convertDateToFloat("02-07-2023"), 11));
-        values.add(new BarEntry(convertDateToFloat("03-07-2023"), 8));
-
         BarDataSet set1;
         BarDataSet set2;
-        BarDataSet set3;
 
         if (chart1.getData() != null &&
                 chart1.getData().getDataSetCount() > 0) {
@@ -192,7 +160,7 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
             chart1.notifyDataSetChanged();
 
         } else {
-            set1 = new BarDataSet(values, "The year 2017");
+            set1 = new BarDataSet(values, "Activity");
             BarData data = new BarData(set1);
 
             chart1.setData(data);
@@ -201,30 +169,17 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
         if (chart2.getData() != null &&
                 chart2.getData().getDataSetCount() > 0) {
             set2 = (BarDataSet) chart2.getData().getDataSetByIndex(0);
-            set2.setValues(values);
+            set2.setValues(values2);
             chart2.getData().notifyDataChanged();
             chart2.notifyDataSetChanged();
 
         } else {
-            set2 = new BarDataSet(values, "The year 2017");
+            set2 = new BarDataSet(values2, "Sleep");
             BarData data = new BarData(set2);
 
             chart2.setData(data);
         }
 
-        if (chart3.getData() != null &&
-                chart3.getData().getDataSetCount() > 0) {
-            set3 = (BarDataSet) chart3.getData().getDataSetByIndex(0);
-            set3.setValues(values);
-            chart3.getData().notifyDataChanged();
-            chart3.notifyDataSetChanged();
-
-        } else {
-            set3 = new BarDataSet(values, "The year 2017");
-            BarData data = new BarData(set3);
-
-            chart3.setData(data);
-        }
 
     }
 
@@ -236,7 +191,7 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
             calendar.setTime(Objects.requireNonNull(dateFormat.parse(dateString)));
 
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH)+1;
+            int month = calendar.get(Calendar.MONTH) + 1;
 
             floatValue = day + month / 100.0f;
         } catch (ParseException e) {
@@ -257,17 +212,18 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
     }
 
     private void getData(String dateString) {
-        DocumentReference docRef = db.collection("user").document(mainViewModel.uuid).collection("logs").document(dateString);
+        DocumentReference docRef = db.collection("users").document(mainViewModel.uuid).collection("logs").document(dateString);
 
         docRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Log.d("MoodFragment", "getData");
                         Long sleepHours = 0L;
                         Long sleepQuality = 0L;
                         Long dayRate = 0L;
                         Long gratefulRate = 0L;
-
+                        Long stressRate = 0L;
                         if (task.getResult().contains("sleepHours")) {
                             sleepHours = (Long) task.getResult().get("sleepHours");
                         }
@@ -280,11 +236,23 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
                         if (task.getResult().contains("gratefulRate")) {
                             gratefulRate = (Long) task.getResult().get("gratefulRate");
                         }
+                        if (task.getResult().contains("stressRate")) {
+                            gratefulRate = (Long) task.getResult().get("stressRate");
+                        }
+                        Log.d("MoodFragment", "sleep: " + sleepQuality);
 
-                        Long sleep = sleepHours + sleepQuality;
-                        Long activity = dayRate + gratefulRate;
+                        values.clear();
+                        values2.clear();
 
+                        values.add(new BarEntry(0, dayRate));
+                        values.add(new BarEntry(1, gratefulRate));
+                        values.add(new BarEntry(2, stressRate));
 
+                        values2.add(new BarEntry(3, sleepHours));
+                        values2.add(new BarEntry(4, sleepQuality));
+                        setData();
+                        chart1.invalidate();
+                        chart2.invalidate();
                     }
                 });
     }
