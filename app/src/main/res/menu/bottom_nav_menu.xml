@@ -12,6 +12,11 @@
         android:title="@string/title_overview" />
 
     <item
+        android:id="@+id/navigation_mood"
+        android:icon="@drawable/baseline_local_fire_department_24"
+        android:title="@string/title_mood" />
+
+    <item
         android:id="@+id/navigation_diary"
         android:icon="@drawable/baseline_menu_book_24"
         android:title="@string/title_diary" />

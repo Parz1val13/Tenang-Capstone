@@ -64,4 +64,10 @@
         android:name="com.example.tenang_capstone.ui.friends.FriendsFragment"
         android:label="@string/title_friends"
         tools:layout="@layout/fragment_friends" />
+
+    <fragment
+        android:id="@+id/navigation_mood"
+        android:name="com.example.tenang_capstone.ui.mood.MoodFragment"
+        android:label="Mood Statistic"
+        tools:layout="@layout/fragment_mood"/>
 </navigation>
