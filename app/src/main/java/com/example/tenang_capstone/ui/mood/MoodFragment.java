@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tenang_capstone.MainViewModel;
+import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.custom.DayAxisValueFormatter;
 import com.example.tenang_capstone.databinding.FragmentMoodBinding;
 import com.github.mikephil.charting.charts.BarChart;
@@ -119,6 +120,7 @@ public class MoodFragment extends Fragment implements OnChartValueSelectedListen
 
         datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
+                .setTheme(R.style.materialCalendar)
                 .build();
 
         return binding.getRoot();
