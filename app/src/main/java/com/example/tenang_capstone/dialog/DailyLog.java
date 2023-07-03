@@ -80,7 +80,7 @@ public class DailyLog {
                 happyRate = 0;
                 sadRate = 0;
                 anxiousRate = 0;
-                openSleepDialog();
+//                openSleepDialog();
                 if (!sleep) {
                     openSleepDialog();
                 } else if (!activity) {

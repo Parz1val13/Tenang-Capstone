@@ -22,4 +22,9 @@
     <style name="CustomDialogTheme" parent="Theme.MaterialComponents.Dialog">
         <!-- Customize your dialog theme here -->
     </style>
+
+    <style name="elevatedButtonTheme" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="android:textColor">@color/black</item>
+
+    </style>
 </resources>
