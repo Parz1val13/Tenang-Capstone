@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Material3.Light"
         tools:targetApi="31">
         <activity
+            android:name=".ui.diary.NoteDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:theme="@style/Theme.Material3.Light.NoActionBar"
             android:exported="false" />
@@ -48,6 +51,10 @@
         <activity android:name="com.example.tenang_capstone.ui.customize.CustomizeActivity"
             android:parentActivityName="com.example.tenang_capstone.MainActivity"
             android:theme="@style/Theme.TenangCapstone"/>
+        <activity
+            android:name=".ui.panic.PanicActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.TenangCapstone" />
     </application>
 
 </manifest>
