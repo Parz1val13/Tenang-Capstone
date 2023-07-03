@@ -98,6 +98,11 @@ public class Login extends AppCompatActivity {
                                     //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     //startActivity(intent);
                                     //finish();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.putExtra("uid", mAuth.getUid());
+                                    startActivity(intent);
+                                    finish();
+
                                 } else {
                                     Toast.makeText(Login.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
