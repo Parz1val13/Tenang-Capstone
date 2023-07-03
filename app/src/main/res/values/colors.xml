@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bgcolor">#E2F5EF</color>
+    <color name="lavender">#E6E6FA</color>
+    <color name="TenangBlue">#42597D</color>
 </resources>

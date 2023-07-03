@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,78 +22,64 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Register extends AppCompatActivity {
+    private FirebaseAuth auth;
+    private EditText signupEmail, signupPassword;
+    private Button signupButton;
+    private TextView loginRedirectText;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-    TextInputEditText editTextEmail, editTextPassword;
-    Button buttonReg;
-    FirebaseAuth mAuth;
-    ProgressBar progressBar;
-    TextView textView;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth= FirebaseAuth.getInstance();
-        editTextEmail = findViewById(R.id.email);
-        editTextPassword = findViewById(R.id.password);
-        buttonReg = findViewById(R.id.btnRegister);
-        progressBar = findViewById(R.id.progressBar);
-        textView = findViewById(R.id.loginNow);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        auth = FirebaseAuth.getInstance();
+        signupEmail = findViewById(R.id.signup_email);
+        signupPassword = findViewById(R.id.signup_password);
+        signupButton = findViewById(R.id.signup_button);
+        loginRedirectText = findViewById(R.id.loginRedirectText);
 
-
-        buttonReg.setOnClickListener(new View.OnClickListener() {
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                String email, password;
-                email = String.valueOf(editTextEmail.getText().toString());
-                password = String.valueOf(editTextPassword.getText().toString());
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show();
-                    return;
+                String user = signupEmail.getText().toString().trim();
+                String pass = signupPassword.getText().toString().trim();
+                if (user.isEmpty()){
+                    signupEmail.setError("Email cannot be empty");
                 }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(Register.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    return;
+                if (!user.matches(emailPattern))
+                {
+                    signupEmail.setError("Enter a real email address");
                 }
 
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
-                                }
+                if (pass.isEmpty() || pass.length()<6 ){
+                    signupPassword.setError("Password cannot be empty or less than 6 digits");
+                } else{
+                    auth.createUserWithEmailAndPassword(user, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                sendUserToNextActivity();
+                                Toast.makeText(Register.this, "SignUp Successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Register.this, "SignUp Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        }
+                    });
+                }
             }
         });
+        loginRedirectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Register.this, Login.class));
+            }
+        });
+    }
+
+    private void sendUserToNextActivity() {
+        Intent intent=new Intent(Register.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
