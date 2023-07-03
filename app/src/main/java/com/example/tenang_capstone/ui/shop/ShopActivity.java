@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,6 +69,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "shirt option selected");
                 option[0] = "shirts";
+                shopView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
                 shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
@@ -77,6 +79,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionAccessories selected");
                 option[0] = "accessories";
+                shopView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
                 shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });
@@ -86,6 +89,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionColor selected");
                 option[0] = "color";
+                shopView.setLayoutManager(new GridLayoutManager(binding.getRoot().getContext(), 3));
                 shopView.setAdapter(new ShopAdapter(binding.getRoot().getContext(), shopList, option[0], shop::onPurchaseConfirmation));
             }
         });

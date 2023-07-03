@@ -40,6 +40,8 @@ public class LeaderboardsAdapter extends RecyclerView.Adapter<LeaderboardsAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.leaderboardNo.setText(format("%d", position +1));
         holder.leaderboardName.setText(friendsLists.get(position).name);
+        holder.leaderboardBerry.setText(friendsLists.get(position).berry.toString());
+
     }
 
     @Override
@@ -50,11 +52,13 @@ public class LeaderboardsAdapter extends RecyclerView.Adapter<LeaderboardsAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView leaderboardNo;
         public TextView leaderboardName;
+        public TextView leaderboardBerry;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             leaderboardNo = itemView.findViewById(R.id.leaderboardNo);
             leaderboardName = itemView.findViewById(R.id.leaderboardName);
+            leaderboardBerry = itemView.findViewById(R.id.leaderboardsBerry);
         }
     }
 }

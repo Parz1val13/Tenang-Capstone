@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,6 +78,7 @@ public class CustomizeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "shirt option selected");
                 option[0] = "shirts";
+                inventoryView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
                 inventoryView.setAdapter(new CustomizeAdapter(binding.getRoot().getContext(), inventoryList, option[0], inventory::onSelection));
             }
         });
@@ -86,6 +88,7 @@ public class CustomizeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionAccessories selected");
                 option[0] = "accessories";
+                inventoryView.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
                 inventoryView.setAdapter(new CustomizeAdapter(binding.getRoot().getContext(), inventoryList, option[0], inventory::onSelection));
             }
         });
@@ -95,6 +98,7 @@ public class CustomizeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("ShopActivity", "optionColor selected");
                 option[0] = "color";
+                inventoryView.setLayoutManager(new GridLayoutManager(binding.getRoot().getContext(), 3));
                 inventoryView.setAdapter(new CustomizeAdapter(binding.getRoot().getContext(), inventoryList, option[0], inventory::onSelection));
             }
         });

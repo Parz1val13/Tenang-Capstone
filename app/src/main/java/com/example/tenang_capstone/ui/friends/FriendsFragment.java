@@ -40,7 +40,7 @@ public class FriendsFragment extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    String search =  "";
+    String search = "";
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -64,10 +64,12 @@ public class FriendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.textField.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -78,7 +80,7 @@ public class FriendsFragment extends Fragment {
         binding.textField.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("FriendsFragment", "search: "+search);
+                Log.d("FriendsFragment", "search: " + search);
                 getFriends(search);
             }
         });
@@ -102,10 +104,15 @@ public class FriendsFragment extends Fragment {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (!document.getId().equals(uid)) {
                         if (!search.isEmpty() && document.get("name").toString().contains(search)) {
-                            friendsLists.add(new FriendsList(document.getId(), (String) document.get("name")));
+                            friendsLists.add(new FriendsList(document.getId(), (String) document.get("name"),
+                                    (Long) document.get("berry")));
                         }
-                        if (search.isEmpty()){
-                            friendsLists.add(new FriendsList(document.getId(), (String) document.get("name")));
+                        if (search.isEmpty()) {
+                            friendsLists.add(new FriendsList(
+                                    document.getId(),
+                                    (String) document.get("name"),
+                                    (Long) document.get("berry")
+                            ));
                         }
                     }
                 }

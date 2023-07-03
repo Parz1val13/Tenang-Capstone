@@ -23,6 +23,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LeaderboardsFragment extends Fragment {
@@ -63,9 +65,17 @@ public class LeaderboardsFragment extends Fragment {
                 friendsLists.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (!document.getId().equals(uid)) {
-                        friendsLists.add(new FriendsList(document.getId(), (String) document.get("name")));
+                        friendsLists.add(new FriendsList(document.getId(), (String) document.get("name"),
+                                (Long) document.get("berry")));
                     }
                 }
+                Collections.sort(friendsLists, new Comparator<FriendsList>() {
+                    @Override
+                    public int compare(FriendsList friend1, FriendsList friend2) {
+                        return Long.compare(friend2.berry, friend1.berry);
+                    }
+                });
+
                 leaderboardView.getAdapter().notifyDataSetChanged();
             }
         });
