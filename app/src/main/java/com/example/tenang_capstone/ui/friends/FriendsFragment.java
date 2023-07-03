@@ -53,7 +53,7 @@ public class FriendsFragment extends Fragment {
 
         friendsView = binding.friendsView;
         friendsView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        friendsView.setAdapter(new FriendsAdapter(requireContext(), friendsLists));
+        friendsView.setAdapter(new FriendsAdapter(requireActivity(), friendsLists));
         getFriends(search);
 
         return root;

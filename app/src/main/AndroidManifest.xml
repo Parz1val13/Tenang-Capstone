@@ -55,6 +55,9 @@
             android:name=".ui.panic.PanicActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.TenangCapstone" />
+        <activity android:name="com.example.tenang_capstone.ui.friends_profile.FriendsProfileActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.TenangCapstone" />
     </application>
 
 </manifest>
