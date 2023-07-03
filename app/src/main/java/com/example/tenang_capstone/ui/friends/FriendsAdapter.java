@@ -1,8 +1,5 @@
-package com.example.tenang_capstone.ui.leaderboards;
+package com.example.tenang_capstone.ui.friends;
 
-import static java.lang.String.format;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tenang_capstone.R;
+import com.example.tenang_capstone.ui.leaderboards.FriendsList;
 
 import java.util.List;
 
-public class LeaderboardsAdapter extends RecyclerView.Adapter<LeaderboardsAdapter.MyViewHolder> {
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
+
     private Context context;
     private final List<FriendsList> friendsLists;
 
-    private String option;
 
-    public LeaderboardsAdapter(Context context, List<FriendsList> friendsLists) {
+    public FriendsAdapter(Context context, List<FriendsList> friendsLists) {
         this.context = context;
         this.friendsLists = friendsLists;
     }
@@ -31,15 +29,14 @@ public class LeaderboardsAdapter extends RecyclerView.Adapter<LeaderboardsAdapte
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.leaderboard_list, parent, false);
+        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_list, parent, false);
         return new MyViewHolder(itemView);
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.leaderboardNo.setText(format("%d", position +1));
-        holder.leaderboardName.setText(friendsLists.get(position).name);
+        holder.name.setText(friendsLists.get(position).name);
+        holder.status.setText("Online");
     }
 
     @Override
@@ -48,13 +45,12 @@ public class LeaderboardsAdapter extends RecyclerView.Adapter<LeaderboardsAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView leaderboardNo;
-        public TextView leaderboardName;
-
+        public TextView name;
+        public TextView status;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            leaderboardNo = itemView.findViewById(R.id.leaderboardNo);
-            leaderboardName = itemView.findViewById(R.id.leaderboardName);
+            name = itemView.findViewById(R.id.friendsName);
+            status = itemView.findViewById(R.id.friendsOnlineStatus);
         }
     }
 }
