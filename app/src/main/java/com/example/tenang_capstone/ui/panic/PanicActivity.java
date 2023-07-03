@@ -12,11 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.databinding.PanicPageBinding;
-import com.example.tenang_capstone.dialog.DailyLog;
-
-import java.util.Objects;
 
 public class PanicActivity extends AppCompatActivity {
 

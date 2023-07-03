@@ -1,4 +1,4 @@
-package com.example.tenang_capstone.dialog;
+package com.example.tenang_capstone.ui.about_us.dialog;
 
 import android.app.Activity;
 import android.util.Log;

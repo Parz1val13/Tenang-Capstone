@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,13 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tenang_capstone.MainActivity;
 import com.example.tenang_capstone.MainViewModel;
 import com.example.tenang_capstone.R;
 import com.example.tenang_capstone.databinding.FragmentHomeBinding;
-import com.example.tenang_capstone.dialog.DailyLog;
+import com.example.tenang_capstone.ui.about_us.dialog.DailyLog;
 import com.example.tenang_capstone.ui.customize.CustomizeActivity;
-import com.example.tenang_capstone.ui.panic.PanicActivity;
 import com.example.tenang_capstone.ui.shop.ShopActivity;
 import com.example.tenang_capstone.utils.firebase.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +36,6 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
-import java.util.prefs.Preferences;
 
 
 public class HomeFragment extends Fragment {
