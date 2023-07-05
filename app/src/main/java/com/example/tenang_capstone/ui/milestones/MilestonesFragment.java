@@ -58,29 +58,29 @@ public class MilestonesFragment extends Fragment {
                     Log.d("Milestone", String.valueOf(documentSnapshot.size()));
                     if (ml > 0 && ml <= 2) {
                         currentProgress = ml *5;
-                        binding.textView13.setText("5 Days");
+                        binding.textView13.setText("5 Logs");
                     } else if (ml <= 5) {
                         currentProgress = ml *5;
-                        binding.textView13.setText("7 Days");
+                        binding.textView13.setText("7 Logs");
                     } else if (ml <= 7) {
                         currentProgress = (int) (ml * 5.4);
-                        binding.textView13.setText("15 Days");
+                        binding.textView13.setText("15 Logs");
                     } else if (ml <= 15) {
                         currentProgress = (int) (ml * 3.7);
-                        binding.textView13.setText("30 Days");
+                        binding.textView13.setText("30 Logs");
                     } else if (ml <= 30) {
                         currentProgress = (int) (ml * 2.3);
-                        binding.textView13.setText("60 Days");
+                        binding.textView13.setText("60 Logs");
                     } else if (ml <= 60) {
                         currentProgress = (int) (ml * 1.5);
-                        binding.textView13.setText("90 Days");
+                        binding.textView13.setText("90 Logs");
                     } else if (ml <=89) {
                         currentProgress = ml;
                     } else {
                         currentProgress = 90;
                     }
                     milestoneProgress.setProgress(currentProgress);
-                    binding.textView44.setText(ml+" day streak");
+                    binding.textView44.setText(ml+" log streak");
                 });
     }
 
