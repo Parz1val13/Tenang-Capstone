@@ -41,7 +41,7 @@ public class PanicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:1234567890")); // Replace with the phone number you want to call
+                intent.setData(Uri.parse("tel:1555")); // Replace with the phone number you want to call
                 startActivity(intent);
             }
         });
